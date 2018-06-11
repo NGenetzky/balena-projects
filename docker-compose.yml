@@ -1,7 +1,8 @@
 version: '2'
 services:
   main:
-    build: ./main
+    build:
+      context: ./main
     ports:
       - "22:22"
     labels:

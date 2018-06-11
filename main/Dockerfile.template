@@ -35,19 +35,27 @@ RUN apt-get update && apt-get install -y \
     && mkdir /var/run/sshd \
     && echo "AllowAgentForwarding yes" >> /etc/ssh/sshd_config
 
-ADD ["https://github.com/NGenetzky.keys", "/root/.ssh/authorized_keys"]
+ENV USER=ngenetzky
+ENV PASSWORD=resin
+RUN useradd --create-home --shell /bin/bash $USER \
+    && echo $USER:$PASSWORD | chpasswd \
+    && adduser $USER sudo \
+    && adduser $USER tty \
+    && echo $USER " ALL=(root) NOPASSWD:ALL" >> /etc/sudoers.d/$USER \
+    && chmod 0440 /etc/sudoers.d/$USER
+ADD ["https://github.com/NGenetzky.keys", "/home/$USER/.ssh/authorized_keys"]
 
 RUN echo 'root:root' | chpasswd \
     && sed -i 's/PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config \
     && sed -i 's/UsePAM yes/UsePAM no/' /etc/ssh/sshd_config \
     && echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 
-#set the entrypoint
 COPY ["./entrypoint.bash", "/etc/init.d/entrypoint.bash"]
-ENTRYPOINT ["/etc/init.d/entrypoint.bash"]
 
 # systemd init system in the container
 # ENV INITSYSTEM on
 
+ENTRYPOINT ["/etc/init.d/entrypoint.bash"]
 # SSH port
 EXPOSE 22
+USER $USER
