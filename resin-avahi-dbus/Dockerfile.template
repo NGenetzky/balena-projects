@@ -4,6 +4,7 @@ FROM resin/%%RESIN_MACHINE_NAME%%-debian:jessie
 # python-flash for example server
 
 RUN apt-get update && apt-get install -y \
+      git \
       python-dbus \
       python-flask \
     && apt-get clean \
@@ -11,7 +12,7 @@ RUN apt-get update && apt-get install -y \
 
 WORKDIR /usr/src/app/
 RUN git clone \
-  git@github.com:resin-io-playground/resin-avahi-dbus.git \
+  https://github.com/resin-io-playground/resin-avahi-dbus.git \
   /usr/src/app/
 
 CMD ["/bin/bash", "/usr/src/app/start.sh"]
