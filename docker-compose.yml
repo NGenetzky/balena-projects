@@ -1,0 +1,6 @@
+version: '2'
+services:
+  main:
+    build: ./main
+    ports:
+      - "2222:22"
