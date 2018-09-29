@@ -1,7 +1,10 @@
-FROM debian:latest
-MAINTAINER Ankit R Gadiya <me@argp.in>
+FROM resin/%%RESIN_MACHINE_NAME%%-debian:jessie
+# FROM resin/amd64-debian
+LABEL \
+    authors="Ankit R Gadiya <me@argp.in>,Nathan Genetzky <Nathan@Genetzky.us>" \
+    maintainer="Nathan Genetzky <Nathan@Genetzky.us>"
 
-# Installation 
+# Installation
 RUN apt-get update \
 	&& apt-get install -y \
 		python \
