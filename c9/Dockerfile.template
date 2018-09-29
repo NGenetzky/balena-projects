@@ -20,6 +20,7 @@ RUN apt-get update \
 	&& locale-gen \
 	&& git clone https://github.com/creationix/nvm.git ~/.nvm \
 	&& bash -c "source ~/.nvm/nvm.sh && nvm install 0.10;" \
+	&& npm config delete prefix \
 	&& git clone https://github.com/c9/core.git ~/c9sdk \
 	&& rm -rf ~/c9sdk/.git \
 	&& cd ~/c9sdk \
