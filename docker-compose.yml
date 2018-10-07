@@ -1,12 +1,19 @@
 version: '2'
 services:
-  main:
-    build: ./main
-    ports:
-      - "22:22"
-    labels:
-      # https://docs.resin.io/learn/develop/multicontainer/#labels
-      # Bind mounts the host OS dbus into the container using /run/dbus:/host/run/dbus
-      io.resin.features.dbus: '1'
-    environment:
-      - DBUS_SYSTEM_BUS_ADDRESS=unix:path=/host/run/dbus/system_bus_socket
+  # main:
+  #   build: ./main
+  #   ports:
+  #     - "22:22"
+  #   labels:
+  #     # https://docs.resin.io/learn/develop/multicontainer/#labels
+  #     # Bind mounts the host OS dbus into the container using /run/dbus:/host/run/dbus
+  #     io.resin.features.dbus: '1'
+  #   environment:
+  #     - DBUS_SYSTEM_BUS_ADDRESS=unix:path=/host/run/dbus/system_bus_socket
+  sigrok-cli:
+    build: ./sigrok
+    privileged: True
+    volumes:
+      - "/dev/bus/usb:/dev/bus/usb:rw"
+volumes:
+  devusb:

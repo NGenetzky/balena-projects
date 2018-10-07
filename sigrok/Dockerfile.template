@@ -5,7 +5,6 @@ LABEL \
   maintainer="Nathan@Genetzky.us"
 
 # Core packages
-# TODO: libftdi1-dev
 # https://sigrok.org/wiki/Building#Build_requirements
 RUN apt-get update && apt-get install -y \
       autoconf \
@@ -40,11 +39,24 @@ RUN apt-get update && apt-get install -y \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-# Optional Packages
-# RUN apt-get update && apt-get install -y \
-#     && apt-get clean \
-#     && rm -rf /var/lib/apt/lists/*
+# sigrok packages
+RUN apt-get update && apt-get install -y \
+      pulseview \
+      sigrok-cli \
+      sigrok-firmware-fx2lafw \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
 
+# TODO: libftdi1-dev
+RUN apt-get update && apt-get install -y \
+      libftdi-dev \
+      libftdi1 \
+      libftdipp1 \
+      libftdipp-dev \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
+
+# TODO: This was disabled due to build failures
 # sigrok
 # The most convenient method to build all of the sigrok subprojects from source
 # is to use the sigrok-cross-linux script from the sigrok-util repo. Despite
@@ -52,10 +64,10 @@ RUN apt-get update && apt-get install -y \
 #
 # The script assumes that you have installed all requirements of all sigrok
 # subprojects, please check Building#Build_requirements for details.
-RUN git clone git://sigrok.org/sigrok-util /opt/sigrok-util \
-  && cd /opt/sigrok-util/cross-compile/linux \
-  && sed -i -e 's@PKG_CONFIG_PATH=$P $SB ../configure $C $JDK@PKG_CONFIG_PATH=$P $SB ../configure --disable-java $C $JDK@' '/opt/sigrok-util/cross-compile/linux/sigrok-cross-linux' \
-  && ./sigrok-cross-linux
+# RUN git clone git://sigrok.org/sigrok-util /opt/sigrok-util \
+#   && cd /opt/sigrok-util/cross-compile/linux \
+#   && sed -i -e 's@PKG_CONFIG_PATH=$P $SB ../configure $C $JDK@PKG_CONFIG_PATH=$P $SB ../configure --disable-java $C $JDK@' '/opt/sigrok-util/cross-compile/linux/sigrok-cross-linux' \
+#   && ./sigrok-cross-linux
 
 #set the entrypoint
 COPY ["./entrypoint.bash", "/etc/init.d/entrypoint.bash"]
