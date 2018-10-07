@@ -1,5 +1,5 @@
-# FROM resin/%%RESIN_MACHINE_NAME%%-debian:jessie
-FROM resin/amd64-debian
+FROM resin/%%RESIN_MACHINE_NAME%%-debian:jessie
+# FROM resin/amd64-debian
 
 LABEL \
   maintainer="Nathan@Genetzky.us"
