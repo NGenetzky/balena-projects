@@ -12,8 +12,7 @@ services:
   #     - DBUS_SYSTEM_BUS_ADDRESS=unix:path=/host/run/dbus/system_bus_socket
   sigrok-cli:
     build: ./sigrok
+    # privileged because needs access to USB devices.
     privileged: True
-    volumes:
-      - "/dev/bus/usb:/dev/bus/usb:rw"
-volumes:
-  devusb:
+    # volumes:
+    #   - "/dev/bus/usb:/dev/bus/usb:rw"
